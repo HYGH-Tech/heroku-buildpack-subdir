@@ -13,6 +13,8 @@ function indent() {
 unset GIT_DIR
 
 function testCompile() {
+  echo "===> TEST: $1"
+
   dir=$(mktemp -t buildpackXXXXX)
   rm -rf $dir
 
