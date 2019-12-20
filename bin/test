@@ -56,7 +56,7 @@ for BUILDPACK in $(cat $1/.buildpacks); do
     if [ $? == 0 ]; then
       echo "=====> Detected Framework: $framework"
 
-       if [ -x -x $dir/bin/test ]; then
+       if [ -x $dir/bin/test ]; then
          echo "No tests. Skip"
          exit 1
        fi
