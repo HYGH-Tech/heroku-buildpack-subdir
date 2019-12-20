@@ -60,7 +60,7 @@ function test() {
     if [ $? == 0 ]; then
       echo "=====> Detected Framework: $framework"
 
-       if [ -x $dir/bin/test ]; then
+       if [ ! -x $dir/bin/test ]; then
          echo "No tests. Skip"
          return
        fi
