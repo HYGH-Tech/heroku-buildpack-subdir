@@ -65,11 +65,6 @@ function test() {
          return
        fi
 
-      # check if the buildpack left behind an environment for subsequent ones
-      if [ -e $dir/export ]; then
-        source $dir/export
-      fi
-
       $dir/bin/test $BUILD_DIR/$subdir $CACHE_DIR/services/$subdir $ENV_DIR
 
       if [ $? != 0 ]; then
