@@ -71,6 +71,9 @@ function testCompile() {
         $dir/bin/compile $BUILD_DIR/$subdir $CACHE_DIR/services/$subdir $ENV_DIR
       fi
 
+      echo '======ENV'
+      echo $PATH
+
       if [ $? != 0 ]; then
         exit 1
       fi
