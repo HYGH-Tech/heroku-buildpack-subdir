@@ -12,7 +12,8 @@ function indent() {
 
 unset GIT_DIR
 
-for BUILDPACK in $(cat $1/.buildpacks); do
+function testCompile() {
+  $BUILDPACK = $1
   dir=$(mktemp -t buildpackXXXXX)
   rm -rf $dir
 
@@ -58,7 +59,7 @@ for BUILDPACK in $(cat $1/.buildpacks); do
 
        if [ -x $dir/bin/test ]; then
          echo "No tests. Skip"
-         exit 1
+         return
        fi
 
       if [ -x $dir/bin/test-compile ]; then
@@ -75,8 +76,9 @@ for BUILDPACK in $(cat $1/.buildpacks); do
       exit 1
     fi
   fi
+}
+
+for BUILDPACK in $(cat $1/.buildpacks); do
+  testCompile $BUILDPACK
 done
 
-if [[ -e $1/last_pack_release.out ]]; then
-  echo "Using release configuration from last framework ($framework)."
-fi
