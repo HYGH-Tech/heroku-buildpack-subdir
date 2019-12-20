@@ -13,15 +13,17 @@ function indent() {
 unset GIT_DIR
 
 function testCompile() {
-  echo "===> TEST: $1"
-
+  BUILDPACK=$1
+  BUILD_DIR=$2
+  CACHE_DIR=$3
+  ENV_DIR=$4
   dir=$(mktemp -t buildpackXXXXX)
   rm -rf $dir
 
   subdir=""
-  if [[ $1 == *'='* ]]; then
-    subdir=$(echo $1 | cut -d"=" -f 1)
-    BUILDPACK=$(echo $1 | cut -d"=" -f 2)
+  if [[ $BUILDPACK == *'='* ]]; then
+    subdir=$(echo $BUILDPACK | cut -d"=" -f 1)
+    BUILDPACK=$(echo $BUILDPACK | cut -d"=" -f 2)
   fi
 
   url=${BUILDPACK%#*}
@@ -53,7 +55,7 @@ function testCompile() {
     # Ensure that these files exist.
     chmod -f +x $dir/bin/{detect,test,test-compile} || true
 
-    framework=$($dir/bin/detect $1/$subdir)
+    framework=$($dir/bin/detect $BUILD_DIR/$subdir)
 
     if [ $? == 0 ]; then
       echo "=====> Detected Framework: $framework"
@@ -64,9 +66,9 @@ function testCompile() {
        fi
 
       if [ -x $dir/bin/test-compile ]; then
-        $dir/bin/test-compile $1/$subdir $2/services/$subdir $3
+        $dir/bin/test-compile $BUILD_DIR/$subdir $CACHE_DIR/services/$subdir $ENV_DIR
       elif [ -x $dir/bin/compile ]; then
-        $dir/bin/compile $1/$subdir $2/services/$subdir $3
+        $dir/bin/compile $BUILD_DIR/$subdir $CACHE_DIR/services/$subdir $ENV_DIR
       fi
 
       if [ $? != 0 ]; then
@@ -80,6 +82,6 @@ function testCompile() {
 }
 
 for BUILDPACK in $(cat $1/.buildpacks); do
-  testCompile $BUILDPACK
+  testCompile $BUILDPACK $1 $2 $3
 done
 
