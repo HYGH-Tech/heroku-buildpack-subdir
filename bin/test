@@ -13,14 +13,13 @@ function indent() {
 unset GIT_DIR
 
 function test() {
-  $BUILDPACK = $1
   dir=$(mktemp -t buildpackXXXXX)
   rm -rf $dir
 
   subdir=""
-  if [[ $BUILDPACK == *'='* ]]; then
-    subdir=$(echo $BUILDPACK | cut -d"=" -f 1)
-    BUILDPACK=$(echo $BUILDPACK | cut -d"=" -f 2)
+  if [[ $1 == *'='* ]]; then
+    subdir=$(echo $1 | cut -d"=" -f 1)
+    BUILDPACK=$(echo $1 | cut -d"=" -f 2)
   fi
 
   url=${BUILDPACK%#*}
