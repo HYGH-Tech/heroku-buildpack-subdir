@@ -65,9 +65,9 @@ function test() {
         return
       fi
 
-      if [ "$framework" == "Node.js" ]; then
-        $dir/bin/test-compile $BUILD_DIR/$subdir $CACHE_DIR/services/$subdir $ENV_DIR
-      fi
+      # if [ "$framework" == "Node.js" ]; then
+      #   $dir/bin/test-compile $BUILD_DIR/$subdir $CACHE_DIR/services/$subdir $ENV_DIR
+      # fi
 
       # check if the buildpack left behind an environment for subsequent ones
       if [ -e $dir/export ]; then

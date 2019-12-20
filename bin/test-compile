@@ -77,6 +77,20 @@ function testCompile() {
       if [ $? != 0 ]; then
         exit 1
       fi
+
+      if [ ! -z $subdir ]; then
+        # check if the buildpack left any executables behind
+        if [ -d $BUILD_DIR/$subdir/.heroku ]; then
+          mkdir -p $BUILD_DIR/.heroku
+          cp -R $BUILD_DIR/$subdir/.heroku/* $BUILD_DIR/.heroku
+        fi
+
+        # check if the buildpack left any .profile.d scripts behind
+        if [ -d $BUILD_DIR/$subdir/.profile.d ]; then
+          mkdir -p $BUILD_DIR/.profile.d
+          cp -R $BUILD_DIR/$subdir/.profile.d/* $BUILD_DIR/.profile.d
+        fi
+      fi
     else
       echo "Couldn't detect any framework for this buildpack. Exiting."
       exit 1
